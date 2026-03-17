@@ -1,0 +1,35 @@
+/**
+ * Calcula o preço ideal de anúncio considerando custo, taxa da plataforma e lucro desejado.
+ * * Fórmula: 
+ * O valor final (V) menos a taxa da plataforma (V * taxa) deve ser igual 
+ * ao custo (C) mais o lucro desejado sobre o custo (C * lucro).
+ * Portanto: V = (C * (1 + Lucro/100)) / (1 - Taxa/100)
+ */
+function calcularPrecoAnuncio(custo, taxaPlataforma, lucroDesejado) {
+    // Validação de dados de entrada
+    if (custo < 0 || taxaPlataforma < 0 || lucroDesejado < 0) {
+        return "Erro: Os valores não podem ser negativos.";
+    }
+
+    if (taxaPlataforma >= 100) {
+        return "Erro: A taxa da plataforma não pode ser 100% ou maior.";
+    }
+
+    // Cálculo matemático
+    const taxaDecimal = taxaPlataforma / 100;
+    const lucroDecimal = lucroDesejado / 100;
+    
+    const valorComLucro = custo * (1 + lucroDecimal);
+    const precoAnuncio = valorComLucro / (1 - taxaDecimal);
+
+    // Formatação para Moeda Brasileira (BRL)
+    return precoAnuncio.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+
+// Demonstração de Uso:
+// Cenário 1: Sucesso (Produto custou 1000, plataforma cobra 10%, quero 20% de lucro)
+console.log("Cenário Ideal:", calcularPrecoAnuncio(1000, 10, 20)); 
+// Saída esperada: R$ 1.333,33 (Ao tirar 10% da plataforma sobram 1200, que é 1000 de custo + 200 de lucro)
+
+// Cenário 2: Erro (Valores negativos)
+console.log("Cenário de Erro:", calcularPrecoAnuncio(1000, -5, 20));
